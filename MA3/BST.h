@@ -118,31 +118,68 @@ class BST {
 
     /* Print tree out in level order */
     /* MA TODO: Implement */
-    void printLevelOrderHelper(Node<T> *root) {
-        if (!root) return;
-        /*
-        MA TODO:
-        */
-        cout << endl;
-        cout << "printLevelOrderHelper UNIMPLEMENTED AT THIS TIME -- REPLACE!" << endl;
-        cout << " ** Required to use the STL queue class (that's a huge hint)!" << endl;
-        cout << " ** Doing this with a loop will be easier than recursion." << endl;
-    }
+	void printLevelOrderHelper(Node<T> *root)
+	{
+		if (!root) //if empty tree
+			return;
 
-    /* Generate vector of tree values to return */
-    /* MA TODO: Implement */
-    vector<T> & returnLevelOrderHelper(Node<T> *root) {
-        vector<T> * ret = new vector<T>{};
-        if (!root) return( *ret );
-        /*
-        MA TODO:
-        */
-        cout << endl;
-        cout << " returnLevelOrderHelper UNIMPLEMENTED AT THIS TIME -- REPLACE!" << endl;
-        cout << " ** Required to use the STL queue class (that's a huge hint)!" << endl;
-        cout << " ** Doing this with a loop will be easier than recursion." << endl;
-        return( *ret );
-    }
+		queue<Node<T> *> orderedList; //Queue of pointers to nodes
+		orderedList.push(root); //Add the root as the first node in queue
+		int counter; //Size of the queue
+		
+		while (!orderedList.empty())
+		{
+			counter = orderedList.size(); //Keep track of the size of the queue so we don't pop() an empty queue
+			if (counter == 0)
+				break;
+			while (counter != 0)
+			{
+				Node<T> * pCur = orderedList.front(); //pCur is assigned a pointer to the first node of the queue
+				cout << orderedList.front()->value<< " "; //Prints the first node of the queue
+				orderedList.pop(); //Removes first node in the queue
+				if (pCur->left != nullptr) //In level order, we start from the left and move to the right in the same level
+					orderedList.push(pCur->left);
+				if (pCur->right != nullptr)
+					orderedList.push(pCur->right);
+				counter--;
+			}
+		}
+		cout << endl; //Space
+		cout << "end of queue" << endl; 
+
+	}
+
+	vector<T> & returnLevelOrderHelper(Node<T> *root) { //Similar to the printLevelOrderHelper function
+		vector<T> * ret = new vector<T>{}; //vector of T values
+		if (!root) return(*ret); //check for empty tree
+
+		queue<Node<T> *> orderedList; //queue of node pointers
+		orderedList.push(root); //we start the queue with the root
+		int counter; //size of the vector
+		int vectorCount = 0;
+
+		while (!orderedList.empty())
+		{
+			counter = orderedList.size();
+			if (counter == 0)
+				break;
+			while (counter != 0)
+			{
+				Node<T> * pCur = orderedList.front(); //pCur is a pointer to the top node in the queue 
+				ret->insert(ret->begin() + vectorCount, pCur->value); //inserts (position, value) in the ret vector 
+				//cout << orderedList.front()->value << " "; //Test// To see what values are inserted in the vector
+				orderedList.pop(); //removes the front of the queue
+				if (pCur->left != nullptr) 
+					orderedList.push(pCur->left); //In level order, we start from the left and move to the right in the same level
+				if (pCur->right != nullptr)
+					orderedList.push(pCur->right);
+				counter--; // keeps count of the size of the queue. We don't want to pop() an empty queue
+				vectorCount++; //iteration for the position of the vector
+			}
+		}
+
+		return(*ret);
+	}
 
     /* Return number of nodes in tree */
     int nodesCountHelper(Node<T> *root) {
@@ -225,33 +262,51 @@ class BST {
         makeEmpty( );
     }
 
-    /* Copy constructor */
-    /* MA TODO: Implement */
-    BST( const BST &other ) : root( NULL ) {
-        cout << " [d] Copy constructor called. " << endl;
-        cout << " TODO: Implement copy constructor. " << endl;
-    }
+	/* Copy constructor */
+	/* MA TODO: Implement */
+	BST(const BST &other) : root(NULL) {
+		cout << " [d] Copy constructor is called" << endl;
+		if (other.root == nullptr) //Check for empty tree
+			this->root = nullptr; //If other tree is empty, make this tree empty 
+		else
+			this->root = cloneTree(other.root); //Uses the cloneTree function helper, which makes a copy of the other tree and returns a pointer to the root of the new tree
+	}
 
-    /* Move constructor */
-    /* MA TODO: Implement */
-    BST ( BST && other ) : root( NULL ) {
-        cout << " [d] Move constructor called " << endl;
-        cout << " TODO: Implement move constructor. " << endl;
-    }
+	/* Move constructor */
+	/* MA TODO: Implement */
+	BST(BST && other) : root(NULL) {
+		cout << " [d] Move construtor called " << endl;
+		
+		this->root = other.getRoot(); //Assigns this tree's root to other's tree root. We don't need to check for empty tree. If other tree = NULL, this tree will equal NULL
+		other.root = nullptr;         //Removes other's tree pointer to the tree, making this tree have the only access to it
+	}
 
-    /* Copy assignment operator */
-    /* MA TODO: Implement */
-    BST& operator=(BST & other) {
-        cout << " [d] Copy assignment operator called. " << endl;
-        cout << " TODO: Implement copy assignment operator. " << endl;
-    }
+	/* Copy assignment operator */
+	/* MA TODO: Implement */
+	BST& operator=(BST & other) {
+		cout << " [d] Copy assignment operator called. " << endl;
 
-    /* Move assignment operator */
-    /* MA TODO: Implement */
-    BST& operator=(BST && other) {
-        cout << " [d] Move assignment operator called. " << endl;
-        cout << " TODO: Implement move assignment operator. " << endl;
-    }
+		//Making sure this tree is empty before we copy
+		makeEmpty(); //Deletes all the nodes in this tree if there are any to avoid accidently losing access to a tree and wasting space
+		if (other.getRoot() == nullptr) //If other has empty tree
+			this->root = nullptr;
+		this->root = cloneTree(other.getRoot()); //Use cloneTree helper function, which returns the pointer to the root of a new tree
+
+		return (*this);
+	}
+
+	/* Move assignment operator */
+	/* MA TODO: Implement */
+	BST& operator=(BST && other) {
+		cout << " [d] Move assignment operator called. " << endl;
+
+		//Making sure this tree is empty before we move pointers
+		makeEmpty(); //Deletes all the nodes in this tree if there are any to avoid accidently losing access to a tree and wasting space
+		this->root = other.getRoot(); //Grabs other's tree root pointer
+		other.root = nullptr; //Removes other's access to the tree
+		return(*this);
+	}
+
 
     /* Public API */
     void makeEmpty( ) {
@@ -312,7 +367,7 @@ class BST {
     }
 
     bool contains( T value ) {
-        containsHelper(this->root, value);
+        return this->containsHelper(this->root, value);
     }
 
     Node<T> * getRoot() { return(root); }  // Gives out our root pointer for testing
