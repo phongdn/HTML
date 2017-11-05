@@ -20,8 +20,36 @@ using namespace std;
 void instrumentedInsertionSort( vector<int> & a, SortStats & stats )
 {
 	clock_t time_begin = clock();           // Grab starting time before sort
-
-
+	int k = 0, temp = 0;;
+	for(int i = 1; i < a.size(); i++)
+	{
+		temp = a[i];
+		k = i - 1;
+		while(++stats.compares && k >= 0 && a[k] > temp)
+		{
+			stats.moves++;
+			a[k+1] = a[k];
+			k -= 1;
+		}
+		a[k+1] = temp;
+		//if(++stats.compares && a[i-1] >  a[i])
+		//{
+		//	for(int k = i-1; k >= 0; k--)
+		//	{
+		//		if(++stats.compares && a[k] < a[i]) 
+		//		{
+		//			stats.moves++;
+		//			temp = a[k+1];
+		//			a[k+1] = a[i];
+		//			a[i] = temp;
+		//			//a[k+1] += a[i];
+		//			//a[i] = a[k+1] - a[i];
+		//			//a[k+1] -= a[i];
+		//			break;
+		//		}
+		//	}
+		//}
+	}
 	// MA TODO: implement insertion sort plus logging compares, moves/swaps
 
 
