@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 		}
     }
 
-	if( is_test_mode )
+	if( true)
 	{
 		cout << " [x] Running in test mode. " << endl;
 		sortingTests(20);

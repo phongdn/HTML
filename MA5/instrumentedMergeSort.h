@@ -17,11 +17,14 @@
 
 using namespace std;
 
+void mergeSort(vector<int> & a, SortStats & stats, int lowest, int highest);
+void merge(vector<int> & a, SortStats & stats, int min, int mid, int max);
+
 void instrumentedMergeSort( vector<int> & a, SortStats & stats )
 {
     clock_t time_begin = clock();       // Grab presort time
 
-	mergeSort(a, stats, 0, a.size() - 1)
+	mergeSort(a, stats, 0, a.size() - 1);
 	
 	// MA TODO: Implement Merge Sort plus logging compares and moves/swaps
 
@@ -47,8 +50,8 @@ void merge( vector<int> & a, SortStats & stats, int min, int mid,  int max )
 	int num = mid - min + 1;
 	int num2 = max - mid;
 
-	int subArray[num];
-	int subArray2[num2];
+	int * subArray = new int[num];
+	int * subArray2 = new int[num2];
 
 	for(int i = 0; i < num; i++)
 	{
