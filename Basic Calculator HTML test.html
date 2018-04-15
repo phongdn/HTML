@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+<title>Basic Calculator</title>
+<style>
+body {
+	  background-color:#033;
+}
+
+table {
+	border: 6px #066 solid;
+}
+
+h1, h2, h3 {
+	color:#6CC;
+	font:27px Futura, ‘Century Gothic’, AppleGothic, sans-serif;
+	padding: 5px;
+}
+
+#content {
+  width: 300px ;
+  margin-left: auto ;
+  margin-right: auto ;
+  background-color:#033;
+}
+
+input[type=button] {
+    font:26px Futura, ‘Century Gothic’, AppleGothic, sans-serif;
+    font-size:200%;
+    cursor:pointer;
+	width: 67px;
+}
+
+input[type=button]:hover {
+    background-color: #8ED7C8;
+	color:#900;
+}
+
+input[type=text] {
+    font-family: Futura, ‘Century Gothic’, AppleGothic, sans-serif;
+	font-size: 26px;
+	background-color:#FFC;
+	color:#03C;
+	width:98%;
+}
+
+.blackbo {
+	background-color:#000;
+	border: 6px #066 solid;
+}
+    
+</style>
+<script>
+    function OneClick() {
+        var numberone = "1"
+        $("#output").text(numberone);
+    }
+    
+        
+    
+</script>
+</head>
+<body>
+
+<h2>Phong Nguyen</h2> 
+
+<div id="content">
+
+<h2 class="blackbo">A Basic Calculator</h2>
+<form name="calc"> <!-- NOTE: The name of the form is "calc" -->
+<table>
+	<tr>
+		<td>
+		<input type="text"   id="output" name="display" > <!-- Reminder: The id of the textbox is "output" -->
+		<br>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<input onclick= "calc.display.value += '1'" type="button" name="one" value = "1">
+		<input onclick= "calc.display.value += '2'" type = "button" name = "two" value = "2"> 
+		<input onclick= "calc.display.value += '3'" type = "button" name = "three" value = "3">
+		<input onclick= "calc.display.value += '+'" type = "button" name = "add" value = "+">
+		<br>
+		<input onclick= "calc.display.value += '4'" type = "button" name = "four" value = "4">
+		<input onclick= "calc.display.value += '5'" type = "button" name = "five" value = "5">
+		<input onclick= "calc.display.value += '6'" type = "button" name = "six" value = "6">
+		<input onclick= "calc.display.value += '-'" type = "button" name = "subtract" value = "-">
+		<br>
+		<input onclick= "calc.display.value += '7'" type = "button" name = "seven" value = "7">
+		<input onclick= "calc.display.value += '8'" type = "button" name = "eight" value = "8">
+		<input onclick= "calc.display.value += '9'" type = "button" name = "nine" value = "9">
+		<input onclick= "calc.display.value += '*'" type = "button" name = "multiply" value = "x">
+		<br>
+		<input onclick= "calc.display.value = ''" type = "button" name = "clear" value = "ce">
+		<input onclick= "calc.display.value += '0'" type = "button" name = "zero" value = "0">
+		<input onclick= "calc.display.value = eval(calc.display.value)" type = "button" name = "evaluate" value = " = "> 
+            <input onclick= "calc.display.value += '/'" type = "button" name = "divide" value = "&divide;">
+		<br>
+		</td>
+	</tr>
+</table>
+</form>
+</div>
+</body>
+</html>
