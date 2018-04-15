@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignment 1: Basic Calculator</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+var secretNum = 7;
+var guessesLeft = 5;
+var guesses = new Array();
+var UserInput;
+var i = 0;
+
+// This just clears everything out so that the game can be played again
+function reset() {
+	$("#input").val("");
+	$("#feedback").html("");
+
+	guessesLeft = 5;
+	$("#numGuessesLeft").html("You have 5 guesses left");
+	
+	guesses = new Array(); // forget all the previous guesses
+	$("#previousGuesses").html("");
+}
+
+
+$(document).ready( function() {
+	reset(); // when the document is ready to run some JavaScript, run the 'reset' function
+	
+	$("#reset").click( reset );
+	
+	$("#doGuess").click( function() {
+    UserInput = $("#input").val();
+    i = 0;
+    if(guessesLeft != 0) {
+        if(UserInput == "") {
+            $("#feedback").html("You must guess a number between 1 and 15");
+            $("#feedbackTwo").text("You Left The Guess Field Blank!");
+        }
+        else if (isNaN(Number(UserInput))) {
+            $("#feedback").text("You must guess a number between 1 and 15");
+            $("#feedbackTwo").text(UserInput +" is not a number!");
+        }
+        else if(UserInput > 15) {
+            $("#feedback").text("You must guess a number between 1 and 15");
+            $("#feedbackTwo").text(UserInput + " is greater than 15");
+        }
+        else if(UserInput < 1) {
+            $("#feedback").text("You must guess a number between 1 and 15");
+            $("#feedbackTwo").text(UserInput + " is less than 1");
+        }
+        else if(UserInput != 7) {
+            $("#feedback").text(UserInput + " is not the secret number");
+            $("#feedbackTwo").text("");
+            while(i != 5) {
+                if(guesses[i] == UserInput) {
+                 $("#feedback").text("You must guess a number between 1 and 15"); 
+                 $("#feedbackTwo").text(UserInput + " has already been guessed!");
+                    return;
+                }
+                i = i + 1;
+            }
+            guesses.push(UserInput);        
+            $("#previousGuesses").text(guesses);
+            guessesLeft = (guessesLeft - 1);
+            $("#numGuessesLeft").html("You have " + guessesLeft + " guesses left");
+        }
+        else if(UserInput == 7) {
+            $("#feedback").text("");
+            $("#feedbackTwo").text("You Won!");
+        }
+        if (guessesLeft == 0) {
+             $("#numGuessesLeft").html("You have NO guesses left");
+             $("#feedback").text("You've lost the game!");
+            $("#feedbackTwo").text("Press the reset button to restart the game");
+             return;
+        }
+    }
+	});
+});
+</script>
+<style>
+body {
+	  background-color:#99CCFF;
+}
+
+table {
+	border: 6px #066 solid;
+}
+
+h1, h2, h3, p {
+	color:#6600CC;
+	font-family:Futura, ‘Century Gothic’, AppleGothic, sans-serif;
+	padding: 5px;
+}
+
+</style>
+</head>
+<body>
+
+<h2>Phong Nguyen</h2> <!-- Replace "Your Name Goes Here!" with your first and last name, thanks! -->
+
+<h2>A2: The Guessing Game</h2>
+<form name="calc">
+	<p>Type your guess here:</p>
+	<input type="text"   id="input">
+	
+	<input type="button" name="guess" id="doGuess" value = "Click here to see if your guess is correct!"> 
+	<h3 id="numGuessesLeft"></h3>
+
+	<p id="feedback"></p>
+    <p id="feedbackTwo"></p>
+	<h3>You've already guessed:</h3>
+	<p id="previousGuesses"></p>
+	
+</form>
+	<input type="button" name="guess" id="reset" value = "Reset the game"> </body>
+</html>
